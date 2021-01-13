@@ -52,6 +52,11 @@ if __name__ == "__main__":
 
             # predict
             roi = gray[startY:endY, startX:endX]              # region of interest
+
+            # if no face detected, then skip
+            if roi.size == 0 or roi is None:
+                continue
+
             id, conf = recognizer.predict(roi)
 
             text = "Unknown"
