@@ -19,8 +19,8 @@ net = cv2.dnn.readNetFromCaffe(prototxt, res_model)
 # define the recognizer
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 label_id = 0
-train = []
-label = []
+train_data = []
+labels = []
 label_dic = {}
 
 # loop through all images for training and store the image arrays and labels and label-name dictionary
@@ -54,12 +54,12 @@ for root, dirs, files in os.walk(image_path, topdown=False):
             # compute the coordinates of the bounding box for the object
             box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 
-            train.append(gray[int(box[1]):int(box[3]),int(box[0]):int(box[2])])
-            label.append(id)
+            train_data.append(gray[int(box[1]):int(box[3]),int(box[0]):int(box[2])])
+            labels.append(id)
 
 # train and save the model
 
-recognizer.train(train,np.array(label))
+recognizer.train(train_data, np.array(labels))
 recognizer.save("model.yml")
 
 # save name-lable dictionary
